@@ -1,0 +1,49 @@
+<Configuration>
+  <Name>Symphony ILS Data Import Server Addon</Name>
+  <Author>Atlas Systems, Inc.</Author>
+  <Version>1.0.0</Version>
+  <Active>true</Active>
+  <Type>Server</Type>
+
+  <Description>This addon imports ILS data from Symphony's Items API for transactions that are in the specified data import queue. The transaction will be routed to one of 2 queues, depending on the success of the data import.</Description>
+
+  <Settings>
+    <Setting name="RequestMonitorQueue" type="string" value="Awaiting ILS Data Import">
+      <Description>The queue that the addon will monitor for transactions that need ILS data automatically imported from Symphony. The value of this setting is required.</Description>
+    </Setting>
+
+    <Setting name="SuccessRouteQueue" type="string" value="Awaiting Request Processing">
+      <Description>The queue that the addon will route requests to after successfully importing ILS data from Symphony. The value of this setting is required.</Description>
+    </Setting>
+
+    <Setting name="ErrorRouteQueue" type="string" value="Awaiting Manual Data Import">
+      <Description>The queue that the addon will route requests to if errors are encountered while importing ILS data from Symphony. The value of this setting is required.</Description>
+    </Setting>
+
+    <Setting name="SymphonyWebServiceUrl" type="string" value="">
+      <Description>Base URL for the Symphony Web Service. The value of this setting is required.</Description>
+    </Setting>
+
+    <Setting name="CallNumberSourceField" type="string" value="CallNumber">
+      <Description>Specifies the transaction field that contains the Symphony record's Call Number. The value of this setting is required and must match the name of a column from the Transactions table.</Description>
+    </Setting>
+
+    <Setting name="LocationDestinationField" type="string" value="Location">
+      <Description>Specifies the transaction field where the location information for the transaction should be stored. The value of this setting is optional. If specified, the value of this setting must match the name of a column from the Transactions table.</Description>
+    </Setting>
+
+    <Setting name="BarcodeDestinationField" type="string" value="ReferenceNumber">
+      <Description>Specifies the transaction field where gathered barcode information should be stored. The value of this setting is optional. If specified, the value of this setting must match the name of a column from the Transactions table.</Description>
+    </Setting>
+
+  </Settings>
+
+  <Forms />
+
+  <Files>
+    <File>Utility.lua</File>
+    <File>WebClient.lua</File>
+    <File>SymphonyServerAddon.lua</File>
+  </Files>
+
+</Configuration>
