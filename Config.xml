@@ -21,7 +21,7 @@
     </Setting>
 
     <Setting name="SymphonyWebServiceUrl" type="string" value="">
-      <Description>Base URL for the Symphony Web Service. The value of this setting is required.</Description>
+      <Description>Base URL for the Symphony Web Service. The value of this setting is required. Example:"https://{Your Domain}/cgi-bin/aeonItem.pl"</Description>
     </Setting>
 
     <Setting name="CallNumberSourceField" type="string" value="CallNumber">

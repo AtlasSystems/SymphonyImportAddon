@@ -29,7 +29,7 @@ The queue that the addon will route requests to if errors are encountered while 
 
 Base URL for the Symphony Web Service. The value of this setting is required.
 
-*Example*: `https://{YourDomain}/cgi-bin/aeonItem.pl?callnum=`
+*Example*: `https://{YourDomain}/cgi-bin/aeonItem.pl?`
 
 ### CallNumberSourceField
 
