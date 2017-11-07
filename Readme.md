@@ -1,5 +1,10 @@
 # Symphony Web Service Server Addon
 
+## Versions
+**1.0 -** Initial release
+
+**1.1.0 -** *Enhancement:* Added ability to specify multiple fields in the Lookup Source Field. Used in the cases where the symphony call number contains both the callnumber and the location (ex: "82045 Box 1").
+
 This addon imports ILS data from a Symphony Web Service for transactions that are in the specified data import queue. The transaction will be routed to one of 2 queues, depending on the success of the data import.
 
 > *Note:* The Symphony Web Service is a custom CGI Script written by Stanford.
@@ -31,9 +36,9 @@ Base URL for the Symphony Web Service. The value of this setting is required.
 
 *Example*: `https://{YourDomain}/cgi-bin/aeonItem.pl?`
 
-### CallNumberSourceField
+### LookupSourceField
 
-Specifies the transaction field that contains the Symphony record's Call Number. The value of this setting is required and must match the name of a column from the Transactions table.
+Specifies the transaction field that contains the Symphony record's Call Number. The value of this setting is required and must match the name of a column from the Transactions table. A second column may be specified in the lookup source in cases where an item's callnumber also contains a location. For these cases add a space between column names `CallNumber Location`
 
 *Default*: `CallNumber`
 

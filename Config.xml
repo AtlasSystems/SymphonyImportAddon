@@ -1,7 +1,7 @@
 <Configuration>
   <Name>Symphony ILS Data Import Server Addon</Name>
   <Author>Atlas Systems, Inc.</Author>
-  <Version>1.0.0</Version>
+  <Version>1.1.0</Version>
   <Active>true</Active>
   <Type>Server</Type>
 
@@ -24,8 +24,8 @@
       <Description>Base URL for the Symphony Web Service. The value of this setting is required. Example:"https://{Your Domain}/cgi-bin/aeonItem.pl"</Description>
     </Setting>
 
-    <Setting name="CallNumberSourceField" type="string" value="CallNumber">
-      <Description>Specifies the transaction field that contains the Symphony record's Call Number. The value of this setting is required and must match the name of a column from the Transactions table.</Description>
+    <Setting name="LookupSourceField" type="string" value="CallNumber">
+      <Description>Specifies the transaction field that contains the Symphony record's Call Number. The value of this setting is required and must match the name of a column from the Transactions table. A second column may be specified in the lookup source in cases where an item's callnumber also contains a location. For these cases add a space between column names (CallNumber Location)</Description>
     </Setting>
 
     <Setting name="LocationDestinationField" type="string" value="Location">

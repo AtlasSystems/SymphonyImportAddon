@@ -12,7 +12,7 @@ Settings.ErrorRouteQueue = GetSetting("ErrorRouteQueue")
 -- Declaring WebServiceUrl here, so it will be globally accessible
 Settings.SymphonyWebServiceUrl = nil
 
-Settings.CallNumberSourceField = GetSetting("CallNumberSourceField")
+Settings.LookupSourceField = GetSetting("LookupSourceField")
 
 Settings.LocationDestinationField = GetSetting("LocationDestinationField")
 Settings.BarcodeDestinationField = GetSetting("BarcodeDestinationField")
@@ -108,16 +108,35 @@ function HandleRequests ()
 
     local success, result = pcall(
         function()
-
             local fieldFetchSuccess, transactionCallNumber = pcall(
                 function()
-                    local transactionCallNumber = GetFieldValue("Transaction", Settings.CallNumberSourceField);
+                    local lookupValue = Utility.StringSplit(" ", Settings.LookupSourceField);
+                    local transactionCallNumber = nil;
 
-                    if not transactionCallNumber or transactionCallNumber == "" then
-                        log:ErrorFormat("Call Number from Transaction {0} is empty.", transactionNumber);
-                        error({Message = "Call Number is empty."});
+                    if not lookupValue or lookupValue == "" then
+                        log:ErrorFormat("Lookup Value from Transaction {0} is empty.", transactionNumber);
+                        error({Message = "Lookup Value is empty."});
                     end
 
+                    log:DebugFormat("Lookup Value Count = {0}", #lookupValue);
+
+                    if #lookupValue == 2 then
+                        local callNumber = GetFieldValue("Transaction", lookupValue[1]);
+                        local location = GetFieldValue("Transaction", lookupValue[2]);
+
+                        if callNumber and location then
+                            transactionCallNumber = callNumber .. " " .. location;
+                        elseif callNumber then
+                            transactionCallNumber = callNumber;
+                        end
+
+                    elseif #lookupValue == 1 then
+                        transactionCallNumber = GetFieldValue("Transaction", lookupValue[1]);
+                    else
+                        log:ErrorFormat("Incorrect number of Lookup Values on Transaction {0}.", transactionNumber);
+                    end
+
+                    log:DebugFormat("Returning Transaction Call Number: {0}", transactionCallNumber);
                     return transactionCallNumber;
                 end
             )
@@ -134,6 +153,11 @@ function HandleRequests ()
 
             if not success then
                 error({ Message = symphonyRecord.Message });
+            end
+
+            if symphonyRecord.CallNumber ~= transactionCallNumber then
+                log:ErrorFormat("Call Number from web service ({0}) does not match provided call number ({1})", symphonyRecord.CallNumber, transactionCallNumber)
+                error({Message = "Call Number from web service does not match provided call number"});
             end
 
             if Settings.LocationDestinationField and Settings.LocationDestinationField ~= "" then
@@ -205,8 +229,8 @@ function ParseWebServiceResult(result)
     local record = nil;
     local data = Utility.StringSplit('|', result);
 
-    log:DebugFormat("Data's Length = {0}", table.getn(data));
-    if table.getn(data) >= 3 then
+    log:DebugFormat("Data's Length = {0}", #data);
+    if #data >= 3 then
         log:Debug("Creating record...");
         -- Only taking the first record's data
         record = {
