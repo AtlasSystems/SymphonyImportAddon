@@ -5,6 +5,8 @@
 
 **1.1.0 -** *Enhancement:* Added ability to specify multiple fields in the Lookup Source Field. Used in the cases where the symphony call number contains both the callnumber and the location (ex: "82045 Box 1").
 
+**1.2.0 -** *Enhancement:* Added ability to import Shelf Location from the Symphony Web Service.
+
 This addon imports ILS data from a Symphony Web Service for transactions that are in the specified data import queue. The transaction will be routed to one of 2 queues, depending on the success of the data import.
 
 > *Note:* The Symphony Web Service is a custom CGI Script written by Stanford.
@@ -47,6 +49,12 @@ Specifies the transaction field that contains the Symphony record's Call Number.
 Specifies the transaction field where the location information for the transaction should be stored. The value of this setting is optional. If specified, the value of this setting must match the name of a column from the Transactions table.
 
 *Default*: `Location`
+
+### ShelfLocationDestinationField
+
+Specifies the transaction field where the shelf location information for the transaction should be stored. The value of this setting is optional. If specified, the value of this setting must match the name of a column from the Transactions table.
+
+*Default*: `SubLocation`
 
 ### BarcodeDestinationField
 

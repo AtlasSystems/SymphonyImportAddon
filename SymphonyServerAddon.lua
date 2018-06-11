@@ -16,7 +16,7 @@ Settings.LookupSourceField = GetSetting("LookupSourceField")
 
 Settings.LocationDestinationField = GetSetting("LocationDestinationField")
 Settings.BarcodeDestinationField = GetSetting("BarcodeDestinationField")
-
+Settings.ShelfLocationDestinationField = GetSetting("ShelfLocationDestinationField")
 
 luanet.load_assembly("System")
 luanet.load_assembly("log4net")
@@ -183,6 +183,16 @@ function HandleRequests ()
                 SaveDataSource("Transaction")
             end
 
+            if Settings.ShelfLocationDestinationField and Settings.ShelfLocationDestinationField ~= "" then
+                if ((symphonyRecord.ShelfLocation) and (type(symphonyRecord.ShelfLocation) == "string") and (symphonyRecord.ShelfLocation ~= "")) then
+                    log:Debug("Populating shelf location destination field")
+                    SetFieldValue("Transaction", Settings.ShelfLocationDestinationField, symphonyRecord.ShelfLocation)
+                    SaveDataSource("Transaction");    
+                else
+                    log:Warn("Cannot populate shelf location from Symphony. Shelf location is either missing or blank.");
+                end
+            end
+
             return nil
         end
     )
@@ -201,6 +211,12 @@ function HandleRequests ()
 end
 
 function GetSymphonyRecordByCallNumber(callNumber)
+
+    if ((callNumber == nil) or (callNumber == "")) then
+        log:Error("Invalid callnumber");
+        error({ Message = "Error getting Symphony Record: Invalid call number" });
+    end
+
     local url = Settings.SymphonyWebServiceUrl .. "callnum=" .. FormatSymphonyQueryString(callNumber);
     log:DebugFormat("Requesting {0} from {1}", callNumber, url);
     local result = WebClient.GetRequest(url, {});
@@ -237,11 +253,20 @@ function ParseWebServiceResult(result)
         record = {
             Barcode = data[1],
             Location = data[2],
-            CallNumber = data[3]
+            CallNumber = data[3],
+            ShelfLocation = nil;
         };
+
         log:DebugFormat("Barcode: {0}", record.Barcode);
         log:DebugFormat("Location: {0}", record.Location);
         log:DebugFormat("CallNumber: {0}", record.CallNumber);
+
+        if #data >= 4 then 
+            record.ShelfLocation = data[4];
+            log:DebugFormat("Shelf Location: {0}", record.ShelfLocation);
+        else
+            log:Warn("Record did not contain Shelf Location");
+        end
     elseif data == errorMessage then
         log:Error(errorMessage);
         error({ Message = errorMessage });
