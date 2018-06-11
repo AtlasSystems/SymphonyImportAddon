@@ -1,7 +1,7 @@
 <Configuration>
   <Name>Symphony ILS Data Import Server Addon</Name>
   <Author>Atlas Systems, Inc.</Author>
-  <Version>1.1.1</Version>
+  <Version>1.2.0</Version>
   <Active>true</Active>
   <Type>Server</Type>
 
@@ -30,6 +30,10 @@
 
     <Setting name="LocationDestinationField" type="string" value="Location">
       <Description>Specifies the transaction field where the location information for the transaction should be stored. The value of this setting is optional. If specified, the value of this setting must match the name of a column from the Transactions table.</Description>
+    </Setting>
+
+    <Setting name="ShelfLocationDestinationField" type="string" value="SubLocation">
+      <Description>Specifies the transaction field where the shelf location information for the transaction should be stored. The value of this setting is optional. If specified, the value of this setting must match the name of a column from the Transactions table.</Description>
     </Setting>
 
     <Setting name="BarcodeDestinationField" type="string" value="ReferenceNumber">
