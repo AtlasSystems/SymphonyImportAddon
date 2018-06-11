@@ -155,7 +155,8 @@ function HandleRequests ()
                 error({ Message = symphonyRecord.Message });
             end
 
-            if symphonyRecord.CallNumber ~= transactionCallNumber then
+			if (symphonyRecord.CallNumber ~= transactionCallNumber) and 
+			   (symphonyRecord.CallNumber == nil or transactionCallNumber == nil or string.upper(symphonyRecord.CallNumber) ~= string.upper(transactionCallNumber)) then
                 log:ErrorFormat("Call Number from web service ({0}) does not match provided call number ({1})", symphonyRecord.CallNumber, transactionCallNumber)
                 error({Message = "Call Number from web service does not match provided call number"});
             end
