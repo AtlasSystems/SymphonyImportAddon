@@ -1,7 +1,7 @@
 <Configuration>
   <Name>Symphony ILS Data Import Server Addon</Name>
   <Author>Atlas Systems, Inc.</Author>
-  <Version>1.2.0</Version>
+  <Version>1.2.1</Version>
   <Active>true</Active>
   <Type>Server</Type>
 

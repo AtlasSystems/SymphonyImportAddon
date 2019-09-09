@@ -251,9 +251,9 @@ function ParseWebServiceResult(result)
         log:Debug("Creating record...");
         -- Only taking the first record's data
         record = {
-            Barcode = data[1],
-            Location = data[2],
-            CallNumber = data[3],
+            Barcode = Utility.Trim(data[1]),
+            Location = Trim(data[2]),
+            CallNumber = Trim(data[3]),
             ShelfLocation = nil;
         };
 
@@ -262,7 +262,7 @@ function ParseWebServiceResult(result)
         log:DebugFormat("CallNumber: {0}", record.CallNumber);
 
         if #data >= 4 then 
-            record.ShelfLocation = data[4];
+            record.ShelfLocation = Trim(data[4]);
             log:DebugFormat("Shelf Location: {0}", record.ShelfLocation);
         else
             log:Warn("Record did not contain Shelf Location");
