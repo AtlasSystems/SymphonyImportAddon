@@ -34,7 +34,7 @@ The suggested state code for the queue indicated in the `ErrorRouteQueue` settin
 
 While not required, a routing rule helps ensure that the addon will import data for all requests submitted by users.
 
-*Sample Routing Rule*: The following sample rule will move requests from _Submitted by User_ to _Awaiting ILS Data Import_ when the CallNumber is not null or blank and the request has not already been routed to the `RequestMonitorQueue`. Checking for the null/blank ReferenceNumber helps to skip processing by the addon for requests that already have barcode information supplied. Make the appropriate match string changes if using different field(s) for `BarcodeDestinationField`.
+*Sample Routing Rule*: The following sample rule will move requests from _Submitted by User_ to _Awaiting ILS Data Import_ when the ReferenceNumber is not null or blank and the request has not already been routed to the `RequestMonitorQueue`. Checking for the null/blank ReferenceNumber helps to skip processing by the addon for requests that already have barcode information supplied. Make the appropriate match string changes if using different field(s) for `BarcodeDestinationField`.
 
 **Status**: _Submitted by User_
 
